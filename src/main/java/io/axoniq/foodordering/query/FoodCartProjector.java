@@ -2,6 +2,7 @@ package io.axoniq.foodordering.query;
 
 import io.axoniq.foodordering.coreapi.FindFoodCartQuery;
 import io.axoniq.foodordering.coreapi.FoodCartCreatedEvent;
+import io.axoniq.foodordering.coreapi.ProductDeselectedEvent;
 import io.axoniq.foodordering.coreapi.ProductSelectedEvent;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
@@ -19,22 +20,25 @@ public class FoodCartProjector {
     }
 
     @EventHandler
-    public void on(FoodCartCreatedEvent event){
-       FoodCartView foodCartView = new FoodCartView(event.getFoodCartId(), Collections.emptyMap());
-       repository.save(foodCartView);
-    }
-
-    @EventHandler
-    public void on(ProductSelectedEvent event){
-        repository.findById(event.getProductId()).ifPresent(foodCartView ->
-         foodCartView.addProducts(event.getProductId(), event.getQuantity());
-        );
+    public void on(FoodCartCreatedEvent event) {
+        FoodCartView foodCartView = new FoodCartView(event.getFoodCartId(), Collections.emptyMap());
         repository.save(foodCartView);
     }
 
+    @EventHandler
+    public void on(ProductSelectedEvent event) {
+        repository.findById(event.getProductId()).ifPresent(foodCartView ->
+                foodCartView.addProducts(event.getProductId(), event.getQuantity()));
+    }
+
+    @EventHandler
+    public void on(ProductDeselectedEvent event) {
+        repository.findById(event.getProductId()).ifPresent(foodCartView ->
+                foodCartView.removeProducts(event.getProductId(), event.getQuantity()));
+    }
 
     @QueryHandler
-    public FoodCartView handle(FindFoodCartQuery query){
+    public FoodCartView handle(FindFoodCartQuery query) {
         return repository.findById(query.getFoodCartId()).orElse(null);
     }
 }
