@@ -7,18 +7,18 @@ data class FoodCartCreatedEvent(
     val foodCartId: UUID
 )
 
-data class SelectProductEvent(
+data class ProductSelectedEvent(
     val foodCartId: UUID,
     val productId: UUID,
     val quantity: Int
 )
 
-data class DeselectProductEvent(
+data class ProductDeselectedEvent(
     val foodCartId: UUID,
     val productId: UUID,
     val quantity: Int
 )
 
-data class ConfirmOrderEvent(
+data class OrderConfirmedEvent(
     val foodCartId: UUID
 )
