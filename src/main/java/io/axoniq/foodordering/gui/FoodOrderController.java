@@ -29,7 +29,7 @@ public class FoodOrderController {
     public void handle(){
         // CreateFoodCartCommand() doesn't create anything / contain anythiing
         // It just tells the world we want to create an object
-        this.commandGateway.send(new CreateFoodCartCommand());
+        this.commandGateway.send(new CreateFoodCartCommand(UUID.randomUUID()));
     }
 
     @GetMapping("/foodcart/{foodCartId}")
