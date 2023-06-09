@@ -30,7 +30,7 @@ public class FoodCart {
     public void handle(DeselectProductCommand command) throws ProductDeselectionException {
         UUID productId = command.getProductId();
         if(!selectedProducts.containsKey(productId)){
-         throw new ProductDeselectionException();
+         throw new ProductDeselectionException("Exception: Product " + productId + " does not contain key");
         }
         // register event after executing command
         AggregateLifecycle.apply(new ProductDeselectedEvent(foodCartId, command.getProductId(),
