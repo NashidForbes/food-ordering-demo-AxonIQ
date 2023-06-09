@@ -42,6 +42,14 @@ public class FoodOrderController {
         ));
     }
 
+    @GetMapping("/{foodCartId}")
+    public CompletableFuture<FoodCartView> findFoodCart(@PathVariable("foodCartId") String foodCartId) {
+        return queryGateway.query(
+                new FindFoodCartQuery(UUID.fromString(foodCartId)),
+                ResponseTypes.instanceOf(FoodCartView.class)
+        );
+    }
+
     @PostMapping("/{foodCartId}/deselect/{productId}/quantity/{quantity}")
     public void deselectProduct(@PathVariable("foodCartId") String foodCartId,
                                 @PathVariable("productId") String productId,
