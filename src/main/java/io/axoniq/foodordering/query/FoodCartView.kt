@@ -1,16 +1,17 @@
 package io.axoniq.foodordering.query
 
+import jakarta.persistence.ElementCollection
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
-import javax.persistence.ElementCollection
-import javax.persistence.Entity
-import javax.persistence.FetchType
-import javax.persistence.Id
+import java.util.Collections.emptyMap
+
 
 @Entity
 data class FoodCartView(
-        @Id val foodCartId: UUID,
-        @ElementCollection(fetch = FetchType.EAGER) val products: MutableMap<UUID, Int>
+    @Id val foodCartId: UUID,
+    @ElementCollection val products: MutableMap<UUID, Int>
 ) {
 
     /**
@@ -20,7 +21,9 @@ data class FoodCartView(
      * Lastly, the `quantity` field in the bi-function is nullable, thus explaining why the elvis operator is in place.
      */
     fun addProducts(productId: UUID, amount: Int) =
-            products.compute(productId) { _, quantity -> (quantity ?: 0) + amount }
+        products.compute(productId) { _, quantity -> (quantity ?: 0) + amount }
+
+    constructor() : this(UUID.randomUUID(), emptyMap<UUID, Int>() as MutableMap<UUID, Int>)
 
     /**
      * Removes the specified [amount] of the given [productId] from the [products] map.
@@ -37,6 +40,5 @@ data class FoodCartView(
         }
     }
 }
-
 
 interface FoodCartViewRepository : JpaRepository<FoodCartView, UUID>

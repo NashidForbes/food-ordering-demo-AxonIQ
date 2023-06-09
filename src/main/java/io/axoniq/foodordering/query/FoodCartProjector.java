@@ -11,36 +11,34 @@ import org.springframework.stereotype.Component;
 import java.util.Collections;
 
 @Component
-class FoodCartProjector {
+public class FoodCartProjector {
 
-    private final FoodCartViewRepository foodCartViewRepository;
+    private final FoodCartViewRepository repository;
 
-    public FoodCartProjector(FoodCartViewRepository foodCartViewRepository) {
-        this.foodCartViewRepository = foodCartViewRepository;
+    public FoodCartProjector(FoodCartViewRepository repository) {
+        this.repository = repository;
     }
 
     @EventHandler
     public void on(FoodCartCreatedEvent event) {
         FoodCartView foodCartView = new FoodCartView(event.getFoodCartId(), Collections.emptyMap());
-        foodCartViewRepository.save(foodCartView);
+        repository.save(foodCartView);
     }
 
     @EventHandler
     public void on(ProductSelectedEvent event) {
-        foodCartViewRepository.findById(event.getFoodCartId()).ifPresent(
-                foodCartView -> foodCartView.addProducts(event.getProductId(), event.getQuantity())
-        );
+        repository.findById(event.getProductId()).ifPresent(foodCartView ->
+                foodCartView.addProducts(event.getProductId(), event.getQuantity()));
     }
 
     @EventHandler
     public void on(ProductDeselectedEvent event) {
-        foodCartViewRepository.findById(event.getFoodCartId()).ifPresent(
-                foodCartView -> foodCartView.removeProducts(event.getProductId(), event.getQuantity())
-        );
+        repository.findById(event.getProductId()).ifPresent(foodCartView ->
+                foodCartView.removeProducts(event.getProductId(), event.getQuantity()));
     }
 
     @QueryHandler
     public FoodCartView handle(FindFoodCartQuery query) {
-        return foodCartViewRepository.findById(query.getFoodCartId()).orElse(null);
+        return repository.findById(query.getFoodCartId()).orElse(null);
     }
 }
