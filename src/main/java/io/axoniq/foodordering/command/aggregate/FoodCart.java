@@ -1,4 +1,4 @@
-package io.axoniq.foodordering.command;
+package io.axoniq.foodordering.command.aggregate;
 
 import io.axoniq.foodordering.coreapi.*;
 import org.axonframework.commandhandling.CommandHandler;
