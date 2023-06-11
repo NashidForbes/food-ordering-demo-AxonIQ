@@ -1,5 +1,6 @@
 package io.axoniq.foodordering.coreapi
 
+import java.math.BigDecimal
 import java.util.*
 
 data class FoodCartCreatedEvent(
@@ -9,6 +10,7 @@ data class FoodCartCreatedEvent(
 data class ProductCreatedEvent(
     val productId: UUID,
     val name: String,
+    val price: BigDecimal,
     val quantity: Int
 )
 

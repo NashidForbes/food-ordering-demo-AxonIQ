@@ -8,7 +8,7 @@ import java.util.*
 
 @Entity
 data class ProductView(
-    @Id val ProductId: UUID,
+    @Id val productId: UUID,
     val name: String,
     @ElementCollection val products: MutableMap<UUID, Int>
 ) {
@@ -40,5 +40,6 @@ data class ProductView(
 }
 
 interface ProductStockViewRepository : JpaRepository<ProductView, UUID> {
-    fun findByProductIdOrTitle(productId: String?, title: String?): ProductView?
+    fun findByProductIdOrName(productId: UUID?, name: String?): ProductView?
+    fun findByName(name: String?): ProductView?
 }
