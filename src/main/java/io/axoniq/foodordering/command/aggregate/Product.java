@@ -1,6 +1,7 @@
 package io.axoniq.foodordering.command.aggregate;
 
 import io.axoniq.foodordering.coreapi.*;
+import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
@@ -10,6 +11,7 @@ import org.axonframework.spring.stereotype.Aggregate;
 import java.util.HashMap;
 import java.util.UUID;
 
+@Slf4j
 @Aggregate
 public class Product {
     @AggregateIdentifier
@@ -45,20 +47,13 @@ public class Product {
     @EventSourcingHandler
     public void on(ProductCreatedEvent event) {
         productId = event.getProductId();
-        selectedProducts = new HashMap<>();
-        Integer productStock = event.getQuantity();
-
-        if (productStock < 0) {
-            productStock = 1;
-        }
-
-        selectedProducts.put(productId, productStock);
+        log.info("Product Created: " + productId);
     }
 
     @EventSourcingHandler
     public void on(ProductStockSelectedEvent event) {
-        // Add new products to the stock
-        selectedProducts.merge(event.getProductId(), event.getQuantity(), Integer::sum);
+        // Do something after the event happens
+
     }
 
 
