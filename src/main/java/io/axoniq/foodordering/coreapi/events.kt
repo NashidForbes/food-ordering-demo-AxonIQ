@@ -20,6 +20,11 @@ data class ProductSelectedEvent(
     val quantity: Int
 )
 
+data class ProductStockSelectedEvent(
+    val productId: UUID,
+    val quantity: Int
+)
+
 data class ProductDeselectedEvent(
     val foodCartId: UUID,
     val productId: UUID,
@@ -30,10 +35,6 @@ data class OrderConfirmedEvent(
     val foodCartId: UUID
 )
 
-data class ProductStockSelectedEvent(
-    val productId: UUID,
-    val quantity: Int
-)
 
 data class ProductStockRemovedEvent(
     val productId: UUID,

@@ -1,8 +1,6 @@
 package io.axoniq.foodordering.query
 
-import jakarta.persistence.ElementCollection
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
+import jakarta.persistence.*
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 import java.util.Collections.emptyMap
@@ -11,7 +9,7 @@ import java.util.Collections.emptyMap
 @Entity
 data class FoodCartView(
     @Id val foodCartId: UUID,
-    @ElementCollection val products: MutableMap<UUID, Int>
+    @ElementCollection(fetch = FetchType.EAGER) val products: MutableMap<UUID, Int>
 ) {
 
     /**
