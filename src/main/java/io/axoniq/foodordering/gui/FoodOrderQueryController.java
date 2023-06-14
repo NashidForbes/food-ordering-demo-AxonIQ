@@ -1,37 +1,35 @@
 package io.axoniq.foodordering.gui;
 
-import io.axoniq.foodordering.coreapi.CreateFoodCartCommand;
 import io.axoniq.foodordering.coreapi.DeselectProductCommand;
-import io.axoniq.foodordering.coreapi.FindFoodCartQuery;
 import io.axoniq.foodordering.coreapi.SelectProductCommand;
-import io.axoniq.foodordering.query.FoodCartView;
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
-@RequestMapping("/foodCart")
+@RequestMapping("/foodCartQuery")
 @RestController
-public class FoodOrderController {
+public class FoodOrderQueryController {
 
     private final CommandGateway commandGateway;
     private final QueryGateway queryGateway;
 
 
-    public FoodOrderController(CommandGateway commandGateway, QueryGateway queryGateway) {
+    public FoodOrderQueryController(CommandGateway commandGateway, QueryGateway queryGateway) {
         this.commandGateway = commandGateway;
         this.queryGateway = queryGateway;
     }
 
-    @PostMapping("/create")
+   /* @PostMapping("/create")
     public void handle() {
         // CreateFoodCartCommand() doesn't create anything / contain anythiing
         // It just tells the world we want to create an object
-        this.commandGateway.send(new CreateFoodCartCommand(UUID.randomUUID()));
-    }
+        this.commandGateway.send(new CreateFoodCartCommand(UUID.randomUUID(), null));
+    }*/
 
     @PostMapping("/{foodCartId}/select/{productId}/quantity/{quantity}")
     public void selectProduct(@PathVariable("foodCartId") String foodCartId,
@@ -42,13 +40,13 @@ public class FoodOrderController {
         ));
     }
 
-    @GetMapping("/{foodCartId}")
+/*    @GetMapping("/{foodCartId}")
     public CompletableFuture<FoodCartView> findFoodCart(@PathVariable("foodCartId") String foodCartId) {
         return queryGateway.query(
                 new FindFoodCartQuery(UUID.fromString(foodCartId)),
                 ResponseTypes.instanceOf(FoodCartView.class)
         );
-    }
+    }*/
 
     @PostMapping("/{foodCartId}/deselect/{productId}/quantity/{quantity}")
     public void deselectProduct(@PathVariable("foodCartId") String foodCartId,
@@ -59,9 +57,9 @@ public class FoodOrderController {
         ));
     }
 
-    @GetMapping("/foodcart/{foodCartId}")
+/*    @GetMapping("/foodcart/{foodCartId}")
     public CompletableFuture<FoodCartView> handle(@PathVariable("foodCartId") String foodCartId) {
         return this.queryGateway.query(new FindFoodCartQuery(UUID.fromString(foodCartId)),
                 ResponseTypes.instanceOf(FoodCartView.class));
-    }
+    }*/
 }

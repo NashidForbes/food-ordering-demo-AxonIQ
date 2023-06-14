@@ -18,15 +18,12 @@ import java.util.UUID;
 @Table(name="productlookup")
 public class ProductLookupEntity implements Serializable {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 2788007460547645663L;
+    private static final long serialVersionUID = -249572826749342646L;
 
     @Id
     private UUID productId;
 
-    @Column(unique=true)
+    //@Column(unique=true)
     private String name;
 
 }

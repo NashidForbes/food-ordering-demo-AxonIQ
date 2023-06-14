@@ -16,8 +16,8 @@ public class FoodCartEntity implements Serializable {
     private static final long serialVersionUID = -165060882983026237L;
 
     @Id
-    UUID foodCartId;
+    private UUID foodCartId;
     @JoinTable
     @OneToMany
-    List<ProductEntity> products;
+    private List<ProductEntity> products;
 }

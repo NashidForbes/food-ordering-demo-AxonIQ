@@ -1,10 +1,12 @@
 package io.axoniq.foodordering.coreapi
 
+import io.axoniq.foodordering.query.model.ProductRestModel
 import java.math.BigDecimal
 import java.util.*
 
 data class FoodCartCreatedEvent(
-    val foodCartId: UUID
+    val foodCartId: UUID,
+    val products: List<ProductRestModel> = emptyList()
 )
 
 data class ProductCreatedEvent(

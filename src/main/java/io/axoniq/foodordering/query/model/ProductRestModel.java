@@ -1,13 +1,18 @@
 package io.axoniq.foodordering.query.model;
 
-import lombok.Data;
+import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class ProductRestModel {
-    private String productId;
-    private String title;
+    private UUID productId;
+    private String name;
     private BigDecimal price;
     private Integer quantity;
 }
