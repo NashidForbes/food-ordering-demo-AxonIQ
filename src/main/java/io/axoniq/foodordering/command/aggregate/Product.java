@@ -8,7 +8,7 @@ import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 
-import java.util.HashMap;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Slf4j
@@ -16,7 +16,9 @@ import java.util.UUID;
 public class Product {
     @AggregateIdentifier
     private UUID productId;
-    private HashMap<UUID, Integer> selectedProducts;
+    private String title;
+    private BigDecimal price;
+    private Integer quantity;
 
     public Product() {
     }
@@ -31,9 +33,9 @@ public class Product {
     @CommandHandler
     public void handle(RemoveProductStockCommand command) throws ProductStockDeselectionException {
         UUID productId = command.getProductId();
-        if (!selectedProducts.containsKey(productId)) {
+       /* if (!selectedProducts.containsKey(productId)) {
             throw new ProductStockDeselectionException("Product not found in product stocks list" + productId);
-        }
+        }*/
         // register event after executing command
         AggregateLifecycle.apply(new ProductStockRemovedEvent(productId, command.getQuantity()));
     }
@@ -47,13 +49,16 @@ public class Product {
     @EventSourcingHandler
     public void on(ProductCreatedEvent event) {
         productId = event.getProductId();
+        this.price = event.getPrice();
+        this.title = event.getName();
+        this.quantity = event.getQuantity();
         log.info("Product Created: " + productId);
     }
 
     @EventSourcingHandler
-    public void on(ProductStockSelectedEvent event) {
+    public void on(ProductSelectedEvent event) {
         // Do something after the event happens
-
+        this.quantity -= event.getQuantity();
     }
 
 

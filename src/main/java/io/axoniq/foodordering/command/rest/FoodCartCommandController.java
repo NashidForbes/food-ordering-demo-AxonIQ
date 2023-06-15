@@ -2,14 +2,12 @@ package io.axoniq.foodordering.command.rest;
 
 import io.axoniq.foodordering.command.model.CreateFoodCartCommand;
 import io.axoniq.foodordering.command.model.CreateFoodCartRestModel;
+import io.axoniq.foodordering.coreapi.SelectProductCommand;
 import io.axoniq.foodordering.query.model.ProductRestModel;
 import jakarta.validation.Valid;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.queryhandling.QueryGateway;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,5 +30,14 @@ public class FoodCartCommandController {
         List<ProductRestModel> products = new ArrayList<>();
 
         commandGateway.send(new CreateFoodCartCommand(UUID.randomUUID(), products));
+    }
+
+    @PostMapping("/{foodCartId}/select/{productId}/quantity/{quantity}")
+    public void addProductToCart(@PathVariable("foodCartId") String foodCartId,
+                                 @PathVariable("productId") String productId,
+                                 @PathVariable("quantity") Integer quantity) {
+        commandGateway.send(new SelectProductCommand(
+                UUID.fromString(foodCartId), UUID.fromString(productId), quantity
+        ));
     }
 }

@@ -1,15 +1,15 @@
 package io.axoniq.foodordering.gui;
 
 import io.axoniq.foodordering.coreapi.DeselectProductCommand;
-import io.axoniq.foodordering.coreapi.SelectProductCommand;
+import io.axoniq.foodordering.coreapi.FindFoodCartQuery;
+import io.axoniq.foodordering.query.model.FoodCartRestModelView;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @RequestMapping("/foodCartQuery")
 @RestController
@@ -24,29 +24,14 @@ public class FoodOrderQueryController {
         this.queryGateway = queryGateway;
     }
 
-   /* @PostMapping("/create")
-    public void handle() {
-        // CreateFoodCartCommand() doesn't create anything / contain anythiing
-        // It just tells the world we want to create an object
-        this.commandGateway.send(new CreateFoodCartCommand(UUID.randomUUID(), null));
-    }*/
 
-    @PostMapping("/{foodCartId}/select/{productId}/quantity/{quantity}")
-    public void selectProduct(@PathVariable("foodCartId") String foodCartId,
-                              @PathVariable("productId") String productId,
-                              @PathVariable("quantity") Integer quantity) {
-        commandGateway.send(new SelectProductCommand(
-                UUID.fromString(foodCartId), UUID.fromString(productId), quantity
-        ));
-    }
-
-/*    @GetMapping("/{foodCartId}")
-    public CompletableFuture<FoodCartView> findFoodCart(@PathVariable("foodCartId") String foodCartId) {
+    @GetMapping("/{foodCartId}")
+    public CompletableFuture<FoodCartRestModelView> findFoodCart(@PathVariable("foodCartId") String foodCartId) {
         return queryGateway.query(
                 new FindFoodCartQuery(UUID.fromString(foodCartId)),
-                ResponseTypes.instanceOf(FoodCartView.class)
+                ResponseTypes.instanceOf(FoodCartRestModelView.class)
         );
-    }*/
+    }
 
     @PostMapping("/{foodCartId}/deselect/{productId}/quantity/{quantity}")
     public void deselectProduct(@PathVariable("foodCartId") String foodCartId,

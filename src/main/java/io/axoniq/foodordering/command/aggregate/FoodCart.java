@@ -29,10 +29,9 @@ public class FoodCart {
 
     @CommandHandler
     public void handle(DeselectProductCommand command) throws ProductDeselectionException {
-        UUID productId = command.getProductId();
-        if(!selectedProducts.contains(selectedProducts.get(0).getProductId())){
+  /*        if(!selectedProducts.contains(selectedProducts.get(0).getProductId())){
          throw new ProductDeselectionException("Exception: Product " + productId + " not found in selected products list");
-        }
+        }*/
         // register event after executing command
         AggregateLifecycle.apply(new ProductDeselectedEvent(foodCartId, command.getProductId(),
                 command.getQuantity()));
@@ -49,36 +48,5 @@ public class FoodCart {
     public void on(FoodCartCreatedEvent event) {
         foodCartId = event.getFoodCartId();
         selectedProducts = event.getProducts();
-    }
-
-    @EventSourcingHandler
-    public void on(ProductSelectedEvent event) {
-
-        Map<UUID, Integer> mergedMap = new HashMap<>();
-
-        // merged selected product quantity to hashmap then convert to list
-        // can use hashmap for big O time complexity but for now just use foreach loop
-        // for proof of concept
-        for (ProductRestModel item : selectedProducts) {
-            UUID key = item.getProductId();
-            int quantity = (item.getQuantity() == null || item.getQuantity() < 0)? 0 : item.getQuantity();
-
-
-            if(event.getProductId().equals(item.getProductId())){
-                item.setQuantity(quantity + event.getQuantity());
-            }
-
-            // mergedMap.put(key, mergedMap.getOrDefault(key, 0) + quantity);
-            // Update product quantity in selected products list
-        }
-
-        // confirm updated list
-        // Printing the updated list
-        for (ProductRestModel item : selectedProducts) {
-            System.out.println(item.getName() + ": " + item.getQuantity());
-        }
-
-        //List<Map.Entry<UUID, Integer>> mergedList = new ArrayList<>(mergedMap.entrySet());
-        //selectedProducts.merge(event.getProductId(), event.getQuantity(), Integer::sum);
     }
 }
