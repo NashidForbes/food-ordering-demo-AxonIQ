@@ -40,7 +40,7 @@ public class FoodCart {
     @CommandHandler
     public void handle(SelectProductCommand command) {
         // register event after executing command
-        AggregateLifecycle.apply(new ProductSelectedEvent(foodCartId, command.getProductId(),
+        AggregateLifecycle.apply(new FoodCartAddProductEvent(foodCartId, command.getProductId(),
                 command.getQuantity()));
     }
 

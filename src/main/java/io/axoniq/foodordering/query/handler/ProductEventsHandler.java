@@ -1,4 +1,4 @@
-package io.axoniq.foodordering.command.handler;
+package io.axoniq.foodordering.query.handler;
 
 import io.axoniq.foodordering.coreapi.ProductCreatedEvent;
 import io.axoniq.foodordering.coreapi.data.domain.ProductEntity;

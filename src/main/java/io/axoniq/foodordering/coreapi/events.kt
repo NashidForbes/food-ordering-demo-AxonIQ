@@ -16,7 +16,7 @@ data class ProductCreatedEvent(
     val quantity: Int
 )
 
-data class ProductSelectedEvent(
+data class FoodCartAddProductEvent(
     val foodCartId: UUID,
     val productId: UUID,
     val quantity: Int

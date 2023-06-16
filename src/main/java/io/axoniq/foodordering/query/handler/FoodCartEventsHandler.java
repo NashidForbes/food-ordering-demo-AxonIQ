@@ -1,13 +1,12 @@
-package io.axoniq.foodordering.command.handler;
+package io.axoniq.foodordering.query.handler;
 
 import io.axoniq.foodordering.coreapi.FoodCartCreatedEvent;
-import io.axoniq.foodordering.coreapi.ProductSelectedEvent;
+import io.axoniq.foodordering.coreapi.FoodCartAddProductEvent;
 import io.axoniq.foodordering.coreapi.data.domain.FoodCartEntity;
 import io.axoniq.foodordering.coreapi.data.domain.ProductEntity;
 import io.axoniq.foodordering.coreapi.data.domain.interfaces.FoodCartRepository;
 import io.axoniq.foodordering.coreapi.data.domain.interfaces.ProductsRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.messaging.interceptors.ExceptionHandler;
 import org.springframework.beans.BeanUtils;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-@ProcessingGroup("product-group")
 public class FoodCartEventsHandler {
 
     private final FoodCartRepository foodCartRepository;
@@ -49,7 +47,7 @@ public class FoodCartEventsHandler {
     }
 
     @EventHandler
-    public void on(ProductSelectedEvent event) {
+    public void on(FoodCartAddProductEvent event) {
         FoodCartEntity foodCartEntity = foodCartRepository.findByFoodCartId(event.getFoodCartId());
         ProductEntity productEntity = productsRepository.findByProductId(event.getProductId());
 

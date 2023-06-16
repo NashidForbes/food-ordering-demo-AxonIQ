@@ -56,7 +56,7 @@ public class Product {
     }
 
     @EventSourcingHandler
-    public void on(ProductSelectedEvent event) {
+    public void on(FoodCartAddProductEvent event) {
         // Do something after the event happens
         this.quantity -= event.getQuantity();
     }
