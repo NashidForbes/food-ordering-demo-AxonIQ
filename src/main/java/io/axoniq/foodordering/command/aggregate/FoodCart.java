@@ -1,6 +1,5 @@
 package io.axoniq.foodordering.command.aggregate;
 
-import io.axoniq.foodordering.command.model.CreateFoodCartCommand;
 import io.axoniq.foodordering.coreapi.*;
 import io.axoniq.foodordering.query.model.ProductRestModel;
 import org.axonframework.commandhandling.CommandHandler;

@@ -1,7 +1,7 @@
 package io.axoniq.foodordering.command.rest;
 
-import io.axoniq.foodordering.command.model.CreateFoodCartCommand;
 import io.axoniq.foodordering.command.model.CreateFoodCartRestModel;
+import io.axoniq.foodordering.coreapi.CreateFoodCartCommand;
 import io.axoniq.foodordering.coreapi.SelectProductCommand;
 import io.axoniq.foodordering.query.model.ProductRestModel;
 import jakarta.validation.Valid;
