@@ -8,9 +8,9 @@ import java.math.BigDecimal;
 
 @Data
 public class CreateProductRestModel {
-    @NotBlank(message = "Product name is a required field")
+    //@NotBlank(message = "Product name is a required field")
     private String name;
-    @DecimalMin(value = "0.0", inclusive = false)
+    //@DecimalMin(value = "0.0", inclusive = false)
     @DecimalMax(value = "999.0", inclusive = false)
     @Digits(integer = 3, fraction = 2)
     private BigDecimal price;

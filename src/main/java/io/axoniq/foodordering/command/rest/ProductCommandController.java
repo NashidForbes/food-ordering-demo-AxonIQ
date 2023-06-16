@@ -24,8 +24,17 @@ public class ProductCommandController {
     }
 
     @PostMapping("/create")
-    public void handle(@Valid @RequestBody CreateProductRestModel product) {
-        this.commandGateway.send(new CreateProductCommand(UUID.randomUUID(), product.getName(), product.getPrice(),
-                product.getQuantity()));
+    public String createProduct(@Valid @RequestBody CreateProductRestModel product) {
+
+        String returnValue = "";
+
+        try{
+         returnValue = this.commandGateway.sendAndWait(new CreateProductCommand(UUID.randomUUID(), product.getName(), product.getPrice(),
+                    product.getQuantity()));
+        } catch (Exception ex){
+           returnValue = ex.getLocalizedMessage();
+        }
+
+        return returnValue;
     }
 }

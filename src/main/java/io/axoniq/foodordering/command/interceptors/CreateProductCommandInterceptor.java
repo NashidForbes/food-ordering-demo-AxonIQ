@@ -1,6 +1,8 @@
 package io.axoniq.foodordering.command.interceptors;
 
 import io.axoniq.foodordering.coreapi.CreateProductCommand;
+import io.axoniq.foodordering.coreapi.data.domain.ProductLookupEntity;
+import io.axoniq.foodordering.coreapi.data.domain.interfaces.ProductLookupRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandMessage;
 import org.axonframework.messaging.MessageDispatchInterceptor;
@@ -14,6 +16,13 @@ import java.util.function.BiFunction;
 @Slf4j
 @Component
 public class CreateProductCommandInterceptor implements MessageDispatchInterceptor<CommandMessage<?>> {
+
+    private final ProductLookupRepository productLookupRepository;
+
+    public CreateProductCommandInterceptor(ProductLookupRepository productLookupRepository) {
+        this.productLookupRepository = productLookupRepository;
+    }
+
     // This CreateProductCommandInterceptor is used to intercept the CreateProductCommand
     // not just CreateProductCommand, but also UpdateProductCommand, DeleteProductCommand, etc.
     // for now we just want to intercept the CreateProductCommand messages
@@ -36,6 +45,11 @@ public class CreateProductCommandInterceptor implements MessageDispatchIntercept
                     throw new IllegalArgumentException("Title cannot be empty");
                 }
 
+                ProductLookupEntity productLookupEntity = productLookupRepository.findByProductIdOrName(createProductCommand.getProductId(), createProductCommand.getName());
+                   if(productLookupEntity != null) {
+                       throw new IllegalStateException(String.format("Product with id %s or title %s already exists",
+                               createProductCommand.getProductId(), createProductCommand.getName()));
+                   }
             }
 
             return commandMessage;
