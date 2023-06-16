@@ -28,12 +28,17 @@ public class ProductCommandController {
 
         String returnValue = "";
 
-        try{
+        // No need to wrap below in a try-catch block as the exception is handled in the
+        // ProductsServiceErrorHandler centralized error handler class
+        returnValue = this.commandGateway.sendAndWait(new CreateProductCommand(UUID.randomUUID(), product.getName(), product.getPrice(),
+                product.getQuantity()));
+
+/*        try{
          returnValue = this.commandGateway.sendAndWait(new CreateProductCommand(UUID.randomUUID(), product.getName(), product.getPrice(),
                     product.getQuantity()));
         } catch (Exception ex){
            returnValue = ex.getLocalizedMessage();
-        }
+        }*/
 
         return returnValue;
     }
