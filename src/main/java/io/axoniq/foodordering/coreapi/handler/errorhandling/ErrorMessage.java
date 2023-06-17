@@ -1,4 +1,4 @@
-package io.axoniq.foodordering.command.handler.errorhandling;
+package io.axoniq.foodordering.coreapi.handler.errorhandling;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
