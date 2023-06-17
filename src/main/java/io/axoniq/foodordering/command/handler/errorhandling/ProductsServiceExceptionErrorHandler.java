@@ -1,6 +1,7 @@
 package io.axoniq.foodordering.command.handler.errorhandling;
 
 
+import org.axonframework.commandhandling.CommandExecutionException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,14 @@ public class ProductsServiceExceptionErrorHandler extends ResponseEntityExceptio
 
     @ExceptionHandler(value= {Exception.class})
     public ResponseEntity<Object> handleOtherExceptions(Exception ex, WebRequest request) {
+
+        ErrorMessage errorMessage = new ErrorMessage(dateFormat.format(new Date()), ex.getMessage());
+
+        return new ResponseEntity<Object>(errorMessage, new HttpHeaders(),  HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(value= {CommandExecutionException.class})
+    public ResponseEntity<Object> handleCommandExceptions(CommandExecutionException ex, WebRequest request) {
 
         ErrorMessage errorMessage = new ErrorMessage(dateFormat.format(new Date()), ex.getMessage());
 
