@@ -1,9 +1,10 @@
 package io.axoniq.foodordering.query.handler;
 
+import io.axoniq.foodordering.coreapi.FindProductsQuery;
 import io.axoniq.foodordering.coreapi.data.domain.ProductEntity;
 import io.axoniq.foodordering.coreapi.data.domain.interfaces.ProductsRepository;
-import io.axoniq.foodordering.query.model.FindProductsQuery;
 import io.axoniq.foodordering.query.model.ProductRestModel;
+import org.axonframework.config.ProcessingGroup;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@ProcessingGroup("product-group")
 public class ProductQueryHandler {
 
     private final ProductsRepository productsRepository;

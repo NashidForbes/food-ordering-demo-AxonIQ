@@ -1,7 +1,10 @@
 package io.axoniq.foodordering;
 
 import io.axoniq.foodordering.command.interceptors.CreateProductCommandInterceptor;
+import io.axoniq.foodordering.coreapi.handler.errorhandling.ProductsServiceEventErrorHandler;
 import org.axonframework.commandhandling.CommandBus;
+import org.axonframework.config.EventProcessingConfigurer;
+import org.axonframework.eventhandling.PropagatingErrorHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,5 +22,14 @@ public class FoodOrderingApplication {
     public void registerCreateProductCommandMessageInterceptor(ApplicationContext context, CommandBus commandBus) {
 
       commandBus.registerDispatchInterceptor(context.getBean(CreateProductCommandInterceptor.class));
+    }
+
+    // register the listerInvocationErrorHandler for Product Service Events
+    @Autowired
+    public void configure(EventProcessingConfigurer config){
+        config.registerListenerInvocationErrorHandler("product-group", conf -> new ProductsServiceEventErrorHandler());
+
+        // use Axon's framework PropagatingErrorHandler to propagate general errors to the application below
+        //config.registerListenerInvocationErrorHandler("product-group", conf -> PropagatingErrorHandler.instance());
     }
 }

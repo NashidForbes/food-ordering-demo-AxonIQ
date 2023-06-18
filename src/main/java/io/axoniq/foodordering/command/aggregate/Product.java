@@ -24,7 +24,7 @@ public class Product {
     }
 
     @CommandHandler
-    public Product(CreateProductCommand command) {
+    public Product(CreateProductCommand command){
         UUID aggregateId = UUID.randomUUID();
         // register event after executing command
         AggregateLifecycle.apply(new ProductCreatedEvent(aggregateId, command.getName(), command.getPrice(), command.getQuantity()));
