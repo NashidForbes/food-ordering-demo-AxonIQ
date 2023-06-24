@@ -1,5 +1,6 @@
 package io.axoniq.foodordering.command.aggregate;
 
+import io.axoniq.core.commands.ReserveProductCommand;
 import io.axoniq.foodordering.coreapi.*;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandHandler;
@@ -45,6 +46,18 @@ public class Product {
         // register event after executing command
         AggregateLifecycle.apply(new ProductStockSelectedEvent(command.getProductId(), command.getQuantity()));
     }
+
+    @CommandHandler
+    public void handle(ReserveProductCommand command) {
+        // Check the Product aggregate field quantity after state update
+        // if it can fulfill the reserve product quantity
+        // no need to query a database, Aggregate contains the latest
+        // state information of a domain object
+        if(quantity < command.getQuantity()){
+            throw new IllegalArgumentException("Insufficent number of items in stock.");
+        }
+    }
+
 
     @EventSourcingHandler
     public void on(ProductCreatedEvent event) {

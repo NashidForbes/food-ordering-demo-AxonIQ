@@ -1,4 +1,4 @@
-package io.axoniq.foodordering.gui;
+package io.axoniq.foodordering.query.rest;
 
 import io.axoniq.foodordering.coreapi.FindProductQuery;
 import io.axoniq.foodordering.query.model.ProductRestModel;
