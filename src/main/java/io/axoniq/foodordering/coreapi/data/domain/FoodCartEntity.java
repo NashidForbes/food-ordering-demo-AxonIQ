@@ -2,7 +2,6 @@ package io.axoniq.foodordering.coreapi.data.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.val;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,7 +16,5 @@ public class FoodCartEntity implements Serializable {
 
     @Id
     private UUID foodCartId;
-    @JoinTable
-    @OneToMany
-    private List<ProductEntity> products;
+    private UUID orderId;
 }

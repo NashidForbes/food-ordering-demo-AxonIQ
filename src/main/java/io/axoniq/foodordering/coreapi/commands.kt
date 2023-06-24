@@ -6,36 +6,16 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier
 import java.math.BigDecimal
 import java.util.*
 
-class CreateFoodCartCommand(@RoutingKey val foodCartId: UUID, val products: List<ProductRestModel>)
-class CreateProductCommand(@RoutingKey val productId: UUID, val name : String, val price: BigDecimal, val quantity: Int)
+class CreateFoodCartCommand(@RoutingKey val foodCartId: UUID, val orderId: UUID,)
 
-data class SelectProductCommand(
+data class AddOrderToCartCommand(
     @TargetAggregateIdentifier val foodCartId: UUID,
-    val productId: UUID,
-    val quantity: Int
+    val orderId: UUID,
 )
 
-data class SelectProductStockCommand(
-    @TargetAggregateIdentifier val productId: UUID,
-    val quantity: Int
-)
-
-data class DeselectProductCommand(
+data class RemoveOrderFromCartCommand(
     @TargetAggregateIdentifier val foodCartId: UUID,
-    val productId: UUID,
-    val quantity: Int
+    val orderId: UUID,
 )
 
-data class ConfirmOrderCommand(
-    @TargetAggregateIdentifier val foodCartId: UUID
-)
-
-data class RemoveProductStockCommand(
-    @TargetAggregateIdentifier val productId: UUID,
-    val quantity: Int
-)
-
-data class ConfirmProductStockOrderCommand(
-    @TargetAggregateIdentifier val productId: UUID
-)
 
