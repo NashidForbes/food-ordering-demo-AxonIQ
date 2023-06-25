@@ -2,7 +2,6 @@ package io.axoniq.foodordering.query.handler;
 
 import io.axoniq.foodordering.coreapi.FindFoodCartQuery;
 import io.axoniq.foodordering.coreapi.data.domain.FoodCartEntity;
-import io.axoniq.foodordering.coreapi.data.domain.ProductEntity;
 import io.axoniq.foodordering.coreapi.data.domain.interfaces.FoodCartRepository;
 import io.axoniq.foodordering.query.model.FoodCartRestModelView;
 import io.axoniq.foodordering.query.model.ProductRestModel;
@@ -31,7 +30,7 @@ public class FoodCartQueryHandler {
         Optional<FoodCartEntity> foodCart = foodCartRepository.findById(query.getFoodCartId());
         assert foodCart.isPresent();
 
-        List<ProductEntity> products = foodCart.get().getProducts();
+    /*    List<ProductEntity> products = foodCart.get().getProducts();
         List<ProductRestModel> productsRestModelList = new ArrayList<>();
         ProductRestModel productRestModel = new ProductRestModel();
 
@@ -42,9 +41,9 @@ public class FoodCartQueryHandler {
                     BeanUtils.copyProperties(product, productRestModel);
                     return productRestModel;
                 })
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
 
-        foodCartRestModelView.setProducts(productsRestModelList);
+        //foodCartRestModelView.setProducts(productsRestModelList);
 
         return foodCartRestModelView;
     }

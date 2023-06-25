@@ -1,17 +1,15 @@
 package io.axoniq.foodordering.command.rest;
 
+import io.axoniq.foodordering.command.commands.RemoveProductFromCartCommand;
 import io.axoniq.foodordering.command.model.CreateFoodCartRestModel;
-import io.axoniq.foodordering.coreapi.CreateFoodCartCommand;
-import io.axoniq.foodordering.coreapi.SelectProductCommand;
-import io.axoniq.foodordering.query.model.ProductRestModel;
+import io.axoniq.foodordering.command.commands.AddProductToCartCommand;
+import io.axoniq.foodordering.command.commands.CreateFoodCartCommand;
 import jakarta.validation.Valid;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RequestMapping("/foodcart")
 @RestController
@@ -27,16 +25,25 @@ public class FoodCartCommandController {
 
     @PostMapping("/create")
     public void handle(@Valid @RequestBody CreateFoodCartRestModel cart) {
-        List<ProductRestModel> products = new ArrayList<>();
+        Map<UUID, Integer> products = new HashMap();
 
         commandGateway.send(new CreateFoodCartCommand(UUID.randomUUID(), products));
     }
 
-    @PostMapping("/{foodCartId}/select/{productId}/quantity/{quantity}")
+    @PostMapping("/{foodCartId}/add/{productId}/quantity/{quantity}")
     public void addProductToCart(@PathVariable("foodCartId") String foodCartId,
                                  @PathVariable("productId") String productId,
                                  @PathVariable("quantity") Integer quantity) {
-        commandGateway.send(new SelectProductCommand(
+        commandGateway.send(new AddProductToCartCommand(
+                UUID.fromString(foodCartId), UUID.fromString(productId), quantity
+        ));
+    }
+
+    @PostMapping("/{foodCartId}/remove/{productId}/quantity/{quantity}")
+    public void removeProductFromCartCommand(@PathVariable("foodCartId") String foodCartId,
+                                             @PathVariable("productId") String productId,
+                                             @PathVariable("quantity") Integer quantity) {
+        commandGateway.send(new RemoveProductFromCartCommand(
                 UUID.fromString(foodCartId), UUID.fromString(productId), quantity
         ));
     }

@@ -1,7 +1,9 @@
 package io.axoniq.foodordering.command.aggregate;
 
+import io.axoniq.foodordering.command.commands.AddProductToCartCommand;
+import io.axoniq.foodordering.command.commands.CreateFoodCartCommand;
+import io.axoniq.foodordering.command.commands.RemoveProductFromCartCommand;
 import io.axoniq.foodordering.coreapi.*;
-import io.axoniq.foodordering.query.model.ProductRestModel;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
@@ -14,7 +16,7 @@ import java.util.*;
 public class FoodCart {
     @AggregateIdentifier
     private UUID foodCartId;
-    private List<ProductRestModel> selectedProducts;
+    private Map<UUID,Integer> selectedProducts;
 
     public FoodCart() {
     }
@@ -27,17 +29,19 @@ public class FoodCart {
     }
 
     @CommandHandler
-    public void handle(DeselectProductCommand command) throws ProductDeselectionException {
-  /*        if(!selectedProducts.contains(selectedProducts.get(0).getProductId())){
-         throw new ProductDeselectionException("Exception: Product " + productId + " not found in selected products list");
-        }*/
+    public void handle(RemoveProductFromCartCommand command) throws ProductDeselectionException {
+        UUID productId = command.getProductId();
+
+        if (!selectedProducts.containsKey(productId)) {
+            throw new ProductDeselectionException("Exception: Product with product Id : " + productId + " not found in your cart");
+        }
         // register event after executing command
-        AggregateLifecycle.apply(new ProductDeselectedEvent(foodCartId, command.getProductId(),
+        AggregateLifecycle.apply(new FoodCartRemoveProductEvent(foodCartId, command.getProductId(),
                 command.getQuantity()));
     }
 
     @CommandHandler
-    public void handle(SelectProductCommand command) {
+    public void handle(AddProductToCartCommand command) {
         // register event after executing command
         AggregateLifecycle.apply(new FoodCartAddProductEvent(foodCartId, command.getProductId(),
                 command.getQuantity()));

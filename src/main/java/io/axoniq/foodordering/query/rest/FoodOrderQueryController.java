@@ -1,7 +1,7 @@
 package io.axoniq.foodordering.query.rest;
 
-import io.axoniq.foodordering.coreapi.DeselectProductCommand;
 import io.axoniq.foodordering.coreapi.FindFoodCartQuery;
+import io.axoniq.foodordering.command.commands.RemoveProductFromCartCommand;
 import io.axoniq.foodordering.query.model.FoodCartRestModelView;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
@@ -33,18 +33,4 @@ public class FoodOrderQueryController {
         );
     }
 
-    @PostMapping("/{foodCartId}/deselect/{productId}/quantity/{quantity}")
-    public void deselectProduct(@PathVariable("foodCartId") String foodCartId,
-                                @PathVariable("productId") String productId,
-                                @PathVariable("quantity") Integer quantity) {
-        commandGateway.send(new DeselectProductCommand(
-                UUID.fromString(foodCartId), UUID.fromString(productId), quantity
-        ));
-    }
-
-/*    @GetMapping("/foodcart/{foodCartId}")
-    public CompletableFuture<FoodCartView> handle(@PathVariable("foodCartId") String foodCartId) {
-        return this.queryGateway.query(new FindFoodCartQuery(UUID.fromString(foodCartId)),
-                ResponseTypes.instanceOf(FoodCartView.class));
-    }*/
 }

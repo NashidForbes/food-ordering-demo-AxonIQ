@@ -5,13 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @AllArgsConstructor
 @Data
 public class CreateFoodCartRestModel {
 
-    private final List<ProductRestModel> products = new ArrayList<>();
+    private final Map<UUID, Integer> products = new HashMap<>();
 
 }
