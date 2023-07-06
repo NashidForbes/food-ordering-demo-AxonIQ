@@ -6,6 +6,7 @@ import io.axoniq.foodordering.coreapi.FoodCartRemoveProductEvent;
 import io.axoniq.foodordering.coreapi.data.domain.FoodCartEntity;
 import io.axoniq.foodordering.coreapi.data.domain.interfaces.FoodCartRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.messaging.interceptors.ExceptionHandler;
 import org.springframework.beans.BeanUtils;
@@ -17,10 +18,11 @@ import java.util.UUID;
 
 @Component
 @Slf4j
+@ProcessingGroup("foodcart-group")
 public class FoodCartEventsHandler {
 
     private final FoodCartRepository foodCartRepository;
-    Map<UUID, Integer> productsInCart;
+    Map<String, Integer> productsInCart;
 
     public FoodCartEventsHandler(FoodCartRepository foodCartRepository) {
         this.foodCartRepository = foodCartRepository;
@@ -50,14 +52,16 @@ public class FoodCartEventsHandler {
 
     @EventHandler
     public void on(FoodCartAddProductEvent event) {
-        FoodCartEntity foodCartEntity = foodCartRepository.findByFoodCartId(event.getFoodCartId());
-        productsInCart = new HashMap<>();
-
         try {
+            FoodCartEntity foodCartEntity = foodCartRepository.findByFoodCartId(event.getFoodCartId());
+            productsInCart = new HashMap<>();
+
             productsInCart = foodCartEntity.getProducts();
 
             if(productsInCart.containsKey(event.getProductId())) {
                 productsInCart.put(event.getProductId(), productsInCart.get(event.getProductId()) + event.getQuantity());
+            } else {
+                productsInCart.put(event.getProductId(), event.getQuantity());
             }
 
             foodCartEntity.setProducts(productsInCart);
@@ -65,7 +69,7 @@ public class FoodCartEventsHandler {
             foodCartRepository.save(foodCartEntity);
 
             log.info("ProductReservedEvent is called for productId:" + event.getProductId() +
-                    " and for food cart: " + event.getFoodCartId());
+                    " and for food cart: " + event.getFoodCartId() + " total quantity " + event.getQuantity());
 
         } catch (IllegalArgumentException ex) {
             log.error(ex.getMessage());

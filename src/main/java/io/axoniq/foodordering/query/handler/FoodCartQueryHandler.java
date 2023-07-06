@@ -4,17 +4,14 @@ import io.axoniq.foodordering.coreapi.FindFoodCartQuery;
 import io.axoniq.foodordering.coreapi.data.domain.FoodCartEntity;
 import io.axoniq.foodordering.coreapi.data.domain.interfaces.FoodCartRepository;
 import io.axoniq.foodordering.query.model.FoodCartRestModelView;
-import io.axoniq.foodordering.query.model.ProductRestModel;
+import org.axonframework.config.ProcessingGroup;
 import org.axonframework.queryhandling.QueryHandler;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
+@ProcessingGroup("foodcart-group")
 public class FoodCartQueryHandler {
 
     private final FoodCartRepository foodCartRepository;

@@ -25,9 +25,9 @@ public class FoodCartCommandController {
 
     @PostMapping("/create")
     public void handle(@Valid @RequestBody CreateFoodCartRestModel cart) {
-        Map<UUID, Integer> products = new HashMap();
+        Map<String, Integer> products = new HashMap();
 
-        commandGateway.send(new CreateFoodCartCommand(UUID.randomUUID(), products));
+        commandGateway.send(new CreateFoodCartCommand(UUID.randomUUID().toString(), products));
     }
 
     @PostMapping("/{foodCartId}/add/{productId}/quantity/{quantity}")
@@ -35,7 +35,7 @@ public class FoodCartCommandController {
                                  @PathVariable("productId") String productId,
                                  @PathVariable("quantity") Integer quantity) {
         commandGateway.send(new AddProductToCartCommand(
-                UUID.fromString(foodCartId), UUID.fromString(productId), quantity
+                foodCartId, productId, quantity
         ));
     }
 
@@ -44,7 +44,7 @@ public class FoodCartCommandController {
                                              @PathVariable("productId") String productId,
                                              @PathVariable("quantity") Integer quantity) {
         commandGateway.send(new RemoveProductFromCartCommand(
-                UUID.fromString(foodCartId), UUID.fromString(productId), quantity
+                foodCartId, productId, quantity
         ));
     }
 }

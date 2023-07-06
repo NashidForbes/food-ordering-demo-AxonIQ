@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface FoodCartRepository extends JpaRepository<FoodCartEntity, UUID> {
-    FoodCartEntity findByFoodCartId(UUID productId);
+public interface FoodCartRepository extends JpaRepository<FoodCartEntity, String> {
+    FoodCartEntity findByFoodCartId(String productId);
 }

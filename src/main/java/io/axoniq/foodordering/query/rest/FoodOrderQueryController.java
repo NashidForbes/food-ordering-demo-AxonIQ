@@ -28,7 +28,7 @@ public class FoodOrderQueryController {
     @GetMapping("/{foodCartId}")
     public CompletableFuture<FoodCartRestModelView> findFoodCart(@PathVariable("foodCartId") String foodCartId) {
         return queryGateway.query(
-                new FindFoodCartQuery(UUID.fromString(foodCartId)),
+                new FindFoodCartQuery(foodCartId),
                 ResponseTypes.instanceOf(FoodCartRestModelView.class)
         );
     }

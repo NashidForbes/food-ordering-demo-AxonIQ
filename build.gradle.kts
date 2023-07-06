@@ -23,11 +23,14 @@ repositories {
     }
 }
 
+extra["springCloudVersion"] = "2022.0.3"
+
 dependencies {
     implementation("org.axonframework:axon-spring-boot-starter:4.7.0")
     implementation("org.axonframework.extensions.kotlin:axon-kotlin:4.7.0")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
+    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:3.1.0")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.1.0")
     implementation("org.springframework.boot:spring-boot-starter-web:3.1.0")
     implementation("org.springframework.boot:spring-boot-starter-actuator:3.1.0")
@@ -49,6 +52,12 @@ java.targetCompatibility = JavaVersion.VERSION_17
 
 tasks.withType<JavaCompile>() {
     options.encoding = "UTF-8"
+}
+
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+    }
 }
 
 tasks.withType<Test> {
