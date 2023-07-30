@@ -44,7 +44,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.1.0")
 }
 
-group = "io.axoniq.food-ordering"
+group = "io.axoniq"
 version = "0.0.1-SNAPSHOT"
 description = "Food Ordering"
 java.sourceCompatibility = JavaVersion.VERSION_17
