@@ -5,6 +5,7 @@ metadata:
   name: axonserver
   labels:
     app: axonserver
+  namespace: dev
 spec:
   serviceName: axonserver
   replicas: 1
@@ -48,6 +49,7 @@ metadata:
   name: axonserver-gui
   labels:
     app: axonserver-gui
+  namespace: dev
 spec:
   ports:
   - name: gui
@@ -65,6 +67,7 @@ metadata:
   name: axonserver
   labels:
     app: axonserver
+  namespace: dev
 spec:
   ports:
   - name: grpc
