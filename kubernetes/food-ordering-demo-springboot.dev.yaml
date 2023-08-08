@@ -1,0 +1,114 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: food-order-demo-postgres
+  namespace: dev
+spec:
+  serviceName: food-order-demo-postgres
+  replicas: 1
+  selector:
+    matchLabels:
+      app: food-order-demo-postgres
+  template:
+    metadata:
+      labels:
+        app: food-order-demo-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:latest
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: foodordering
+            - name: POSTGRES_USER
+              value: root
+            - name: POSTGRES_PASSWORD
+              value: password
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /home/nash/food-order-databases/food-order-demo-db/data
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: postgres-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  namespace: dev
+spec:
+  accessModes:
+    - ReadWriteOnce # ReadWriteOnce, the once means one node only can readwrite to volume
+  resources:
+    requests:
+      storage: 1Gi  # Adjust the storage size as needed
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: food-order-demo-postgres
+  labels:
+    app: food-order-demo-postgres
+  namespace: dev
+spec:
+  ports:
+    - name: gateway-port
+      port: 5432
+      targetPort: 5432
+  clusterIP: 10.152.183.130
+  selector:
+    app: food-order-demo-postgres
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: food-ordering-demo-springboot
+  labels:
+    app: food-ordering-demo-springboot
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: food-ordering-demo-springboot
+  template:
+    metadata:
+      labels:
+        app: food-ordering-demo-springboot
+    spec:
+      containers:
+      - name: food-ordering-demo-springboot
+        image: 192.168.20.222:8443/digitalbiohumans/poc/food-ordering-axoniq-demo-springboot:0.0.2-SNAPSHOT
+        imagePullPolicy: Always
+        ports:
+        - name: port-tcp
+          containerPort: 8080
+          protocol: TCP
+        - name: port-udp
+          containerPort: 8080
+          protocol: UDP
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: food-ordering-demo-springboot
+  labels:
+    app: food-ordering-demo-springboot
+  namespace: dev
+spec:
+  ports:
+  - name: gateway-port
+    port: 8080
+    targetPort: 8080
+  clusterIP: 10.152.183.127
+  selector:
+    app: food-ordering-demo-springboot
+---

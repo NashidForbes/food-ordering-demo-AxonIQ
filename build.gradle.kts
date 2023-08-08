@@ -36,6 +36,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator:3.1.0")
     implementation("org.springframework.boot:spring-boot-starter-validation:3.1.0")
     testImplementation("junit:junit:4.13.1")
+    implementation("org.postgresql:postgresql:42.6.0")
     runtimeOnly("org.hsqldb:hsqldb:2.4.1")
     implementation("com.h2database:h2")
     implementation(project(":core"))
