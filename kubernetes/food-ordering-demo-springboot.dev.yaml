@@ -90,11 +90,7 @@ spec:
         - name: port-udp
           containerPort: 8080
           protocol: UDP
-        livenessProbe:
-          tcpSocket:
-            port: 8080
-          initialDelaySeconds: 15
-          periodSeconds: 20
+          #TODO: Implement health checks
 ---
 apiVersion: v1
 kind: Service
