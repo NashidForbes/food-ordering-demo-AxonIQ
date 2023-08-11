@@ -27,17 +27,17 @@ spec:
             - name: POSTGRES_PASSWORD
               value: password
           volumeMounts:
-            - name: postgres-data
+            - name: foodordering-postgres-data
               mountPath: /home/nash/food-order-databases/food-order-demo-db/data
       volumes:
-        - name: postgres-data
+        - name: foodordering-postgres-data
           persistentVolumeClaim:
-            claimName: postgres-pvc
+            claimName: foodordering-postgres-pvc
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: postgres-pvc
+  name: foodordering-postgres-pvc
   namespace: dev
 spec:
   accessModes:
