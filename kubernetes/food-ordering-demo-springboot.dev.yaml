@@ -88,10 +88,10 @@ spec:
             value: 'true'
         ports:
         - name: port-tcp
-          containerPort: 8083
+          containerPort: 8080
           protocol: TCP
         - name: port-udp
-          containerPort: 8083
+          containerPort: 8080
           protocol: UDP
           #TODO: Implement health or ready checks
 ---
@@ -105,8 +105,8 @@ metadata:
 spec:
   ports:
   - name: gateway-port
-    port: 8083
-    targetPort: 8083
+    port: 8080
+    targetPort: 8080
   type: ClusterIP
   selector:
     app: food-ordering-demo-springboot
