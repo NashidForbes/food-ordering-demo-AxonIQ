@@ -86,6 +86,10 @@ spec:
         env:
           - name: EUREKA_INSTANCE_PREFER_IP_ADDRESS
             value: 'true'
+          - name: SPRING_PROFILES_ACTIVE
+            value: dev
+          - name: SPRING_CLOUD_CONFIG_URI
+            value: http://food-ordering-springboot-cloud-config:8888
         ports:
         - name: port-tcp
           containerPort: 8080
