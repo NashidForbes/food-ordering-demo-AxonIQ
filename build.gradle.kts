@@ -23,6 +23,7 @@ repositories {
     }
 }
 
+
 extra["springCloudVersion"] = "2022.0.3"
 
 dependencies {
@@ -35,7 +36,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web:3.1.0")
     implementation("org.springframework.cloud:spring-cloud-starter-config:3.1.0")
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap:3.1.0")
-    implementation("org.springframework.boot:spring-boot-starter-actuator:3.1.0")
+    implementation("org.springframework.boot:spring-boot-starter-validation:3.1.0")
+    implementation ("org.springframework.boot:spring-boot-starter-actuator")
+    implementation ("io.micrometer:micrometer-observation:1.11.3")
+    implementation ("io.micrometer:micrometer-tracing-bridge-brave:1.1.4")
+    implementation ("io.zipkin.reporter2:zipkin-reporter-brave:2.16.4")
     implementation("org.springframework.boot:spring-boot-starter-validation:3.1.0")
     testImplementation("junit:junit:4.13.1")
     implementation("org.postgresql:postgresql:42.6.0")
