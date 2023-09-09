@@ -84,20 +84,10 @@ spec:
         image: 192.168.20.222:8443/digitalbiohumans/poc/food-ordering-axoniq-demo-springboot:0.0.5-SNAPSHOT
         imagePullPolicy: Always
         env:
-          - name: EUREKA_INSTANCE_PREFER_IP_ADDRESS
-            value: 'true'
           - name: SPRING_PROFILES_ACTIVE
             value: dev
           - name: SPRING_CLOUD_CONFIG_URI
             value: http://food-ordering-springboot-cloud-config:8888
-          - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
-            value: http://discoveryserver-springboot:8761/eureka
-          - name: SPRING_ZIPKIN_BASE_URL
-            value: http://zipkin-service-springboot:9411
-          - name: SPRING_SLEUTH_ENABLED
-            value: 'true'
-          - name: SPRING_SLEUTH_SAMPLER_PERCENTAGE
-            value: '1.0'
         ports:
         - name: port-tcp
           containerPort: 8080
