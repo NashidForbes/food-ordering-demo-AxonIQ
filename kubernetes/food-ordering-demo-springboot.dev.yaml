@@ -84,8 +84,6 @@ spec:
         image: 192.168.20.222:8443/digitalbiohumans/poc/food-ordering-axoniq-demo-springboot:0.0.6-SNAPSHOT
         imagePullPolicy: Always
         env:
-          - name: EUREKA_INSTANCE_PREFER_IP_ADDRESS
-            value: 'true'
           - name: SPRING_PROFILES_ACTIVE
             value: dev
           - name: SPRING_CLOUD_CONFIG_URI
