@@ -81,7 +81,7 @@ spec:
     spec:
       containers:
       - name: food-ordering-demo-springboot
-        image: 192.168.20.222:8443/digitalbiohumans/poc/food-ordering-axoniq-demo-springboot:0.0.7-SNAPSHOT
+        image: 192.168.20.222:8443/digitalbiohumans/poc/food-ordering-axoniq-demo-springboot:0.0.5-SNAPSHOT
         imagePullPolicy: Always
         env:
           - name: SPRING_PROFILES_ACTIVE
