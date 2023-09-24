@@ -42,6 +42,8 @@ dependencies {
     implementation ("io.micrometer:micrometer-tracing-bridge-brave:1.1.4")
     implementation ("io.zipkin.reporter2:zipkin-reporter-brave:2.16.4")
     implementation("org.springframework.boot:spring-boot-starter-validation:3.1.0")
+    implementation("net.logstash.logback:logstash-logback-encoder:7.4")
+    implementation("org.springframework.boot:spring-boot-starter-security:3.1.0")
     testImplementation("junit:junit:4.13.1")
     implementation("org.postgresql:postgresql:42.6.0")
     implementation("com.h2database:h2")
