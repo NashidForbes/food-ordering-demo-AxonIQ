@@ -36,6 +36,8 @@ spec:
           periodSeconds: 5
           timeoutSeconds: 5
         env:
+          - name: axoniq.axonserver.standalone
+            value: "true"
         - name: axoniq.axonserver.keep-alive-time
           value: "0"
         - name: axoniq.axonserver.keep-alive-timeout
