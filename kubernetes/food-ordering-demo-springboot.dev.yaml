@@ -68,7 +68,14 @@ metadata:
   name: food-ordering-demo-springboot
   labels:
     app: food-ordering-demo-springboot
+    app-log-type: json-logging-app
+    decode_log_event_to_json_object: "true"
+    collect_logs_with_filebeat: "true"
   namespace: dev
+  annotations:
+    co.elastic.logs.food-ordering-demo-springboot/json.keys_under_root: "true"
+    co.elastic.logs.food-ordering-demo-springboot/json.add_error_key: "true"
+    co.elastic.logs.food-ordering-demo-springboot/json.message_key: "message"
 spec:
   replicas: 1
   selector:
@@ -78,10 +85,17 @@ spec:
     metadata:
       labels:
         app: food-ordering-demo-springboot
+        app-log-type: json-logging-app
+        decode_log_event_to_json_object: "true"
+        collect_logs_with_filebeat: "true"
+      annotations:
+        co.elastic.logs.food-ordering-demo-springboot/json.keys_under_root: "true"
+        co.elastic.logs.food-ordering-demo-springboot/json.add_error_key: "true"
+        co.elastic.logs.food-ordering-demo-springboot/json.message_key: "message"
     spec:
       containers:
       - name: food-ordering-demo-springboot
-        image: 192.168.20.222:8443/digitalbiohumans/poc/food-ordering-axoniq-demo-springboot:0.0.7-spring-cloud-config-secure-client-SNAPSHOT
+        image: 192.168.20.222:8443/digitalbiohumans/poc/food-ordering-axoniq-demo-springboot:0.0.7.2-spring-cloud-config-secure-client-SNAPSHOT
         imagePullPolicy: Always
         env:
           - name: SPRING_PROFILES_ACTIVE

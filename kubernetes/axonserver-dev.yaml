@@ -38,12 +38,12 @@ spec:
         env:
           - name: axoniq.axonserver.standalone
             value: "true"
-        - name: axoniq.axonserver.keep-alive-time
-          value: "0"
-        - name: axoniq.axonserver.keep-alive-timeout
-          value: "604800000"
-        - name: axoniq.axonserver.min-keep-alive-time
-          value: "604800000"
+          - name: axoniq.axonserver.keep-alive-time
+            value: "0"
+          - name: axoniq.axonserver.keep-alive-timeout
+            value: "604800000"
+          - name: axoniq.axonserver.min-keep-alive-time
+            value: "604800000"
 ---
 apiVersion: v1
 kind: Service
