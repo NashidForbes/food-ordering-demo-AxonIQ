@@ -28,7 +28,7 @@ spec:
               value: password
           volumeMounts:
             - name: foodordering-postgres-data
-              mountPath: /home/${USER}/food-order-databases/food-order-demo-db/data
+              mountPath: /var/lib/postgresql/data
       volumes:
         - name: foodordering-postgres-data
           persistentVolumeClaim:
